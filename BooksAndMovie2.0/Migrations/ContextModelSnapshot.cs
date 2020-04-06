@@ -35,12 +35,27 @@ namespace BooksAndMovie2._0.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId3")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.HasIndex("UserId2");
+
+                    b.HasIndex("UserId3");
 
                     b.ToTable("Books");
                 });
@@ -92,8 +107,20 @@ namespace BooksAndMovie2._0.Migrations
             modelBuilder.Entity("BooksAndMovie.Model.Book", b =>
                 {
                     b.HasOne("BooksAndMovie.Model.User", null)
-                        .WithMany("Books")
+                        .WithMany("BadBooks")
                         .HasForeignKey("UserId");
+
+                    b.HasOne("BooksAndMovie.Model.User", null)
+                        .WithMany("FavoriteBooks")
+                        .HasForeignKey("UserId1");
+
+                    b.HasOne("BooksAndMovie.Model.User", null)
+                        .WithMany("GoodBooks")
+                        .HasForeignKey("UserId2");
+
+                    b.HasOne("BooksAndMovie.Model.User", null)
+                        .WithMany("NotBadBooks")
+                        .HasForeignKey("UserId3");
                 });
 
             modelBuilder.Entity("BooksAndMovie.Model.Film", b =>

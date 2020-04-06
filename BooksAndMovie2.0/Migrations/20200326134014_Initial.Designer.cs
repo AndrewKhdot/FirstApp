@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BooksAndMovie2._0.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(BooksAndMovie.Model.Context))]
     [Migration("20200326134014_Initial")]
     partial class Initial
     {

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BooksAndMovie.Data;
+using BooksAndMovie.Logic;
 using BooksAndMovie.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,8 +28,11 @@ namespace BooksAndMovie2._0
         public void ConfigureServices(IServiceCollection services)
         {
             string connettionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddControllersWithViews();
+            services.AddTransient<Context>();
+            services.AddMvc();
             services.AddDbContext<Context>(options => options.UseSqlServer(connettionString));
+            services.AddTransient<IBookRepository, BookRepository>();
+            
             services.AddRazorPages();
         }
 

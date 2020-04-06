@@ -7,59 +7,66 @@ using System.Threading.Tasks;
 namespace BooksAndMovie.Data
 {
     public class BookRepository : IBookRepository
+
     {
+        private readonly Context _context;
+
+        public BookRepository (Context context)
+        {
+            _context = context;
+        }
+
         public void AddBook(Book book)
         {
-            using (Context db = new Context())
+            
             {
-                db.Books.Add(book);
-                db.SaveChanges();
+                _context.Books.Add(book);
+                _context.SaveChanges();
             }
         }
 
         public void AddBooks(IList<Book> books)
         {
-            using (Context db = new Context())
-            {
+            
+            
                 //foreach (Book b in books)
                 //{
-                    db.Books.AddRange(books);
+                _context.Books.AddRange(books);
                 //}
-                db.SaveChanges();
-            }
+                _context.SaveChanges();
+            
         }
 
 
         public void DeleteBook(Book book)
         {
-            using (Context db = new Context())
-            {
-                db.Books.Remove(book);
-                db.SaveChanges();
-            }
+            
+                _context.Books.Remove(book);
+                _context.SaveChanges();
+           
         }
 
        
         public IList<Book> ReadBooks()
         {
-            using (Context db = new Context())
-            {
-                var books = db.Books.ToList();
+            //using (Context db = new Context())
+            //{
+                var books = _context.Books.ToList();
                 return books;
-            }
+            //}
         }
 
 
         public void UpdateBook(Book book)
         {
-            using (Context db = new Context())
-            {
-                var b = db.Books.Find(book.Id);
+            //using (Context db = new Context())
+            //{
+                var b = _context.Books.Find(book.Id);
                 b.Name = book.Name;
                 b.Autor = book.Autor;
                 b.Year = book.Year;
-                db.SaveChanges();
-            }
+            _context.SaveChanges();
+            //}
         }
                 
     }

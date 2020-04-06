@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BooksAndMovie.Data
 {
-    interface IBookRepository
+    public interface IBookRepository
     {
         
         // Добавление книги
