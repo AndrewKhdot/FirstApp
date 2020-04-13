@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BooksAndMovie.Data
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         // Добавление пользователя
         public void AddUser(User user);

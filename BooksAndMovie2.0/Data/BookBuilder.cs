@@ -12,16 +12,16 @@ namespace BooksAndMovie2._0.Data
         string Name { get; set; }
         string Autor { get; set; }
 
-        public BookBuilder ( string name, string autor)
+        public BookBuilder ( string name, string autor, int id)
         {
-            //this.Id = id;
+           this.Id = id;
             this.Name = name;
             this.Autor = autor;
         }
         public Book Creat()
         {
             Book book = new Book();
-            //book.Id = Id;
+            book.Id = Id;
             book.Name = Name;
             book.Autor = Autor;
             return book;

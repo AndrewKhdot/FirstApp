@@ -61,10 +61,8 @@ namespace BooksAndMovie.Data
         {
             //using (Context db = new Context())
             //{
-                var b = _context.Books.Find(book.Id);
-                b.Name = book.Name;
-                b.Autor = book.Autor;
-                b.Year = book.Year;
+                _context.Books.Update(book);
+                
             _context.SaveChanges();
             //}
         }

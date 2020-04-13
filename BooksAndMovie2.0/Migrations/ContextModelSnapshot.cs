@@ -32,30 +32,13 @@ namespace BooksAndMovie2._0.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId2")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId3")
+                    b.Property<int?>("Rating")
                         .HasColumnType("int");
 
                     b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("UserId2");
-
-                    b.HasIndex("UserId3");
 
                     b.ToTable("Books");
                 });
@@ -104,23 +87,22 @@ namespace BooksAndMovie2._0.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BooksAndMovie.Model.Book", b =>
+            modelBuilder.Entity("BooksAndMovie2._0.Entities.BookUser", b =>
                 {
-                    b.HasOne("BooksAndMovie.Model.User", null)
-                        .WithMany("BadBooks")
-                        .HasForeignKey("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasOne("BooksAndMovie.Model.User", null)
-                        .WithMany("FavoriteBooks")
-                        .HasForeignKey("UserId1");
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
 
-                    b.HasOne("BooksAndMovie.Model.User", null)
-                        .WithMany("GoodBooks")
-                        .HasForeignKey("UserId2");
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
 
-                    b.HasOne("BooksAndMovie.Model.User", null)
-                        .WithMany("NotBadBooks")
-                        .HasForeignKey("UserId3");
+                    b.HasKey("UserId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookUser");
                 });
 
             modelBuilder.Entity("BooksAndMovie.Model.Film", b =>
@@ -128,6 +110,21 @@ namespace BooksAndMovie2._0.Migrations
                     b.HasOne("BooksAndMovie.Model.User", null)
                         .WithMany("Films")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("BooksAndMovie2._0.Entities.BookUser", b =>
+                {
+                    b.HasOne("BooksAndMovie.Model.Book", "Book")
+                        .WithMany("BookUser")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BooksAndMovie.Model.User", "User")
+                        .WithMany("BookUser")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

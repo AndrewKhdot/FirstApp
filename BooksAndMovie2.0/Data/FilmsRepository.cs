@@ -8,61 +8,67 @@ namespace BooksAndMovie.Data
 {
     public class FilmsRepository : IFilmRepository
     {
-       
+        private readonly Context _context;
+
+        public FilmsRepository (Context context)
+        {
+            _context = context;
+        }
+
 
         public void AddFilm(Film film)
         {
-            using (Context db = new Context())
-            {
-                db.Films.Add(film);
-                db.SaveChanges();
-            }
+            //using (Context db = new Context())
+            //{
+                _context.Films.Add(film);
+                _context.SaveChanges();
+            //}
         }
 
         public void AddFilms(IList<Film> films)
         {
-            using (Context db = new Context())
-            {
+            //using (Context db = new Context())
+            //{
                 foreach (Film f in films)
                 {
-                    db.Films.Add(f);
+                _context.Films.Add(f);
                 }
-                db.SaveChanges();
-            }
+            _context.SaveChanges();
+            //}
         }
 
        
         public void DeleteFilm(Film film)
         {
-            using (Context db = new Context())
-            {
-                db.Films.Remove(film);
-                db.SaveChanges();
-            }
+            //using (Context db = new Context())
+            //{
+            _context.Films.Remove(film);
+            _context.SaveChanges();
+            //}
         }
 
        
         public IList<Film> ReadFilms()
         {
-            using (Context db = new Context())
-            {
-                var films = db.Films.ToList();
+            //using (Context db = new Context())
+            //{
+                var films = _context.Films.ToList();
                 return films;
-            }
+            //}
         }
 
                
 
         public void UpdateFilm(Film film)
         {
-            using (Context db = new Context())
-            {
-                var f = db.Films.Find(film.Id);
+            //using (Context db = new Context())
+            //{
+                var f = _context.Films.Find(film.Id);
                 f.Name = film.Name;
                 f.Director = film.Director;
                 f.Year = film.Year;
-                db.SaveChanges();
-            }
+            _context.SaveChanges();
+            //}
         }
 
     }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using BooksAndMovie.Data;
 using BooksAndMovie.Logic;
 using BooksAndMovie.Model;
+using BooksAndMovie.Repository;
+using BooksAndMovie2._0.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,7 +34,10 @@ namespace BooksAndMovie2._0
             services.AddMvc();
             services.AddDbContext<Context>(options => options.UseSqlServer(connettionString));
             services.AddTransient<IBookRepository, BookRepository>();
-            
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IBookUserRepository, BookUserRepository>();
+            services.AddTransient<DataBaseInitialser>();
+
             services.AddRazorPages();
         }
 
