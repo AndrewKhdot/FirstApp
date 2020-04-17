@@ -29,11 +29,7 @@ namespace BooksAndMovie2._0.Controllers
        
         public IActionResult Index()
         {
-            IList<User> users = _userrep.ReadAllUsers();
-            //BooksDeleter ba = new BooksDeleter(_bookrep);
-            //ba.Initialize();
-            //DataBaseInitialser ba = new DataBaseInitialser(_bookrep);
-            //ba.Initialize();
+            IList<User> users = _userrep.ReadAllUsers();            
             return View(users);
         }
 
@@ -53,19 +49,28 @@ namespace BooksAndMovie2._0.Controllers
             return View(users);
         }
 
-        [HttpPost, ActionName("ChosenUser")]
+        //[HttpGet, ActionName("ChosenUser")]
         public IActionResult ChosenUser(int id)
         {
 
             IList<User> users = _userrep.ReadAllUsers();
             User user = users.First(p => p.Id == id);
+            IList<BookUser> _bookusers = _burep.ReadBooks();
+            IEnumerable<BookUser> bookusers = _bookusers.Where(p => p.UserId == id);
+            IList<Book> _books = _bookrep.ReadBooks();
+            List<Book> books = new List<Book>();
+            foreach (BookUser bu in bookusers)
+            {
+                books.Add(_books.First(p => p.Id == bu.BookId ));
+            }
+            ViewBag.User = user;
             //BooksAdder ba = new BooksAdder();
             //ba.Run();
             //_context.Books.AddRange(ba.Run());
             //Book book = new Book() { Id = 1, Name = "Дом в котором", Autor = "Мариам Петросян" };
             //_context.Books.Add(book);
             //await _context.SaveChangesAsync();
-            return View(user);
+            return View(books);
             //return Content(id.ToString());
         }
 
@@ -75,6 +80,13 @@ namespace BooksAndMovie2._0.Controllers
         {                          
             IList<Book> books = _bookrep.ReadBooks();
             IList<User> users = _userrep.ReadAllUsers();
+            IList<BookUser> booksuser = _burep.ReadBooks();
+            var _bookusers = booksuser.Where((p => p.UserId == id));
+            foreach(BookUser bu in _bookusers)
+            {
+                Book book = books.First(p => p.Id == bu.BookId);
+                books.Remove(book);
+            }            
             //IList<BookUser> bookuser = _burep.ReadBooks();
             User user = users.First(p => p.Id == id);
             //List<Book> _books = new List<Book>();
@@ -106,7 +118,7 @@ namespace BooksAndMovie2._0.Controllers
             }
             //List<int> bookids = Int32.Parse(check.FirstOrDefault());
             //IList<Book> books = _bookrep.ReadBooks();
-            
+
             //int id = ViewBag.id;
             //_burep.AddBook(_user.Id, book, null);
 
@@ -133,7 +145,7 @@ namespace BooksAndMovie2._0.Controllers
             ////_context.Books.Add(book);
             //await _context.SaveChangesAsync();
             //return Content(_user.Id.ToString());
-            return Content(booknames.ToString() + _user.Name);
+            return RedirectToAction("ChosenUser", "Test", new { id = id }); 
 
         }
         public IActionResult MyBooks(int id)
@@ -173,24 +185,17 @@ namespace BooksAndMovie2._0.Controllers
             foreach (int i in bookid)
             {
                 Book book =  books.First(p => p.Id == i);
-                int? _rating = null;
+                int _rating;
                 string s = Request.Form[i.ToString()];
-                    switch (s)
+                if (s == "null")
                 {
-                    case "Любимая":
-                        _rating = 10;
-                        break;
-                    case "Хорошая" :
-                        _rating = 7;
-                        break;
-                    case "Плохая":
-                        _rating = 2;
-                        break;
-                    default:
-                        _rating = null;
-                        break;
+                    _burep.ChangeRating(id, book, null);
                 }
-                _burep.ChangeRating(id, book, _rating);
+                else
+                {
+                    _rating = Int32.Parse(s);
+                    _burep.ChangeRating(id, book, _rating);
+                }
             }
             //foreach (int j in del)
             //{
@@ -209,25 +214,30 @@ namespace BooksAndMovie2._0.Controllers
             //    booknames.Add(b.Name);
             //    bookr.Add(b.Rating.ToString());
             //}
-            return Content("chek");
+            return RedirectToAction("ChosenUser", "Test", new { id = id });
         }
-        public IActionResult DeleteBooks(int id)
+        public IActionResult DeleteBook(int bookid, int userid)
         {
             IList<User> users = _userrep.ReadAllUsers();
-            User user = users.First(p => p.Id == id);
+            User user = users.First(p => p.Id == userid);
             IList<BookUser> bookusers = _burep.ReadBooks();
-            var _bookusers = bookusers.Where(p => p.UserId == id);
-            IList<Book> _books = _bookrep.ReadBooks();
-            IList<Book> books = new List<Book>();
-            foreach (BookUser bu in _bookusers)
-            {
-                books.Add(_books.First(p => p.Id == bu.BookId));
-            }
-
+            var _bookusers = bookusers.Where(p => p.UserId == userid);
+            IList<Book> books = _bookrep.ReadBooks();
+            Book book = books.First(p => p.Id == bookid);          
             ViewBag.User = user;
-
-            return View(books);
-
+            return View(book);
+        }
+        //[HttpPost, ActionName("DeleteMyBooks")]
+        public IActionResult DeleteMyBook(int bookid, int userid)
+        {
+            IList<User> users = _userrep.ReadAllUsers();
+            User user = users.First(p => p.Id == userid);
+            IList<BookUser> bookusers = _burep.ReadBooks();
+            var _bookusers = bookusers.Where(p => p.UserId == userid);
+            IList<Book> books = _bookrep.ReadBooks();
+            Book book = books.First(p => p.Id == bookid);
+            _burep.RemoveBook(userid, book);
+            return RedirectToAction("ChosenUser", "Test", new { id = userid });
         }
 
         [HttpPost, ActionName("DeleteBooks")]
@@ -248,6 +258,78 @@ namespace BooksAndMovie2._0.Controllers
             return Content(booknames.ToString() + _user.Name);
 
         }
+
+        public IActionResult FindIntrestingUsers(int id)
+        {
+            IList<User> _users = _userrep.ReadAllUsers();
+            User user = _users.First(p => p.Id == id);
+            IList<BookUser> bookusers = _burep.ReadBooks();
+            var _bookusers = bookusers.Where(p => p.UserId == id);
+            Dictionary<int, int> sumrating = new Dictionary<int, int>();
+            foreach (BookUser bu in _bookusers)
+            {
+                var _booksus = bookusers.Where(p => p.BookId == bu.BookId&&p.Rating!=null&&p.UserId!=id);
+                foreach (BookUser _bu in _booksus)
+                {
+                    if(sumrating.ContainsKey(_bu.UserId))
+                    {
+                        sumrating[_bu.UserId] = sumrating[_bu.UserId] + (int)_bu.Rating;
+                    }
+                    else
+                    {
+                        sumrating.Add(_bu.UserId, (int)_bu.Rating);
+                    }
+                }
+            }
+            int i = 0;
+            int[] usersid = new int[3];
+            IList<User> users = new List<User>();
+            sumrating.OrderBy(p => p.Value);
+            for (i=0; i<2; i++)
+            {
+                //if (i < 2)
+                //{
+                int ids = sumrating.First().Key;
+                    User _user = _users.First(p => p.Id == ids);
+                    users.Add(_user);
+                sumrating.Remove(ids);
+                //    i++;
+                //}
+                //else
+                //{
+                //    break;
+                //}
+            }
+            int rang = users.Count;
+
+            ViewBag.User = user;
+            return View(users);
+        }
+
+        
+             public IActionResult AddUsersBooks(int myid, int userid)
+        {
+            IList<Book> _books = _bookrep.ReadBooks();
+            IList<User> users = _userrep.ReadAllUsers();
+            IList<BookUser> booksuser = _burep.ReadBooks();
+            IList<Book> books = new List<Book>();
+            var _bookusers = booksuser.Where(p => p.UserId == userid && p.UserId != myid);
+            foreach (BookUser bu in _bookusers)
+            {
+                Book book = _books.First(p => p.Id == bu.BookId);
+                books.Add(book);
+            }
+            
+            User user = users.First(p => p.Id == myid);
+            
+            ViewBag.User = user;
+
+            return View(books);
+
+        }
+        
+
+        
         public IActionResult ChangeBookRating()
         {            
             IList<User> users = _userrep.ReadAllUsers();

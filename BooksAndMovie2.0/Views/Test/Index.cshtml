@@ -6,50 +6,17 @@
 }
 
 
-<h4>ChooseUser</h4>
+
+<h1>ChooseUser</h1>
 <div class="col-md-4">
-    @*<form asp-action="ChooseUser">*@
+    <form asp-action="ChosenUser" method="get">
 
+        @Html.DropDownList("id", new SelectList(Model, "Id", "Name"), "Выберите пользователя")
 
-        @*<div>
-            <a asp-action="AddMyBooks" asp-route-id="id">AddMyBooks</a>*@
-
-        @*<select asp-for="Id" asp-items="Model"></select>*@
-        @*</div>*@
-        @*@Html.DropDownList("Id", new SelectList(Model, "Id", "Name"), "Выберите пользователя")*@
-
-        @*<a asp-controller="Test" asp-action="AddMyBooks">AddMyBooks</a>*@
-        @*<a asp-action="AddMyBooks" asp-route-id="id">AddMyBooks</a>*@
-        @*<select id="userid" , name="userid">
-            @foreach (User u in Model)
-            {
-                <option>@u.Name</option>
-
-            }
-        </select>
-
+     
         <div>
-            <input type="submit" value="Save" />
+            <input type="submit" name="id" value="Choose" />
+            @*<input type="button" asp-action="ChosenUser" asp-route-id="id" />*@
         </div>
-    </form>*@
+    </form>
 </div>
-<p>
-    <a asp-action="ChooseUser">ChooseUser</a>
-</p>
-
-
-
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-action="AddMyBooks">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    @Html.DropDownList("user", new SelectList(new string[] { "Sasha", "Masha", "Dasha" }), "Выберите пользователя")
-
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Add" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>*@
