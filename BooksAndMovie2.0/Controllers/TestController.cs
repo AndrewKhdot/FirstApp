@@ -70,7 +70,7 @@ namespace BooksAndMovie2._0.Controllers
             //Book book = new Book() { Id = 1, Name = "Дом в котором", Autor = "Мариам Петросян" };
             //_context.Books.Add(book);
             //await _context.SaveChangesAsync();
-            return View(books);
+            return View(bookusers);
             //return Content(id.ToString());
         }
 
@@ -169,7 +169,7 @@ namespace BooksAndMovie2._0.Controllers
                 }
             
             ViewBag.List = rt;
-            return View(books);
+            return View(_bookusers);
 
         }
 
@@ -187,7 +187,7 @@ namespace BooksAndMovie2._0.Controllers
                 Book book =  books.First(p => p.Id == i);
                 int _rating;
                 string s = Request.Form[i.ToString()];
-                if (s == "null")
+                if (s == "" || s == "null")
                 {
                     _burep.ChangeRating(id, book, null);
                 }
@@ -268,7 +268,7 @@ namespace BooksAndMovie2._0.Controllers
             Dictionary<int, int> sumrating = new Dictionary<int, int>();
             foreach (BookUser bu in _bookusers)
             {
-                var _booksus = bookusers.Where(p => p.BookId == bu.BookId&&p.Rating!=null&&p.UserId!=id);
+                var _booksus = _bookusers.Where(p => p.BookId == bu.BookId&&p.Rating!=null&&p.UserId!=id);
                 foreach (BookUser _bu in _booksus)
                 {
                     if(sumrating.ContainsKey(_bu.UserId))
