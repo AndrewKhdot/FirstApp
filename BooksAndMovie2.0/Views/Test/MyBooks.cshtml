@@ -1,0 +1,86 @@
+﻿@model IEnumerable<BooksAndMovie2._0.Entities.BookUser>
+@using BooksAndMovie.Model;
+@using BooksAndMovie2._0.Entities;
+
+@{
+    ViewData["Title"] = "MyBooks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>MyBooks</h1>
+<div class="row">
+    <div class="col-md-4">
+        <h4>@Model.First().User.Name</h4>
+        <form asp-action="ChangeMyBooks" asp-route-id=">@Model.First().User.Id">
+            <input type="hidden" name="id" value="@Model.First().User.Id" />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                        <th>
+                            Оценка
+                        </th>
+                        <th>
+
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                @foreach (BookUser bookuser in Model)
+                {
+                    <tr>
+                        <th>@bookuser.Book.Name</th>
+                        <th>@bookuser.Book.Autor</th>
+                        @if (@bookuser.Rating == null)
+                        {
+                            <th>не читал</th>
+                        }
+                        else
+                        {
+                            <th>@bookuser.Rating</th>
+                        }
+                        @*<th> <select asp-for="First(p => p.Id == book.Id)" asp-items="@ViewBag.List"></select></th>*@
+                        <th>
+                            <select name="@bookuser.BookId">
+                                <option value="null">Не читал</option>
+                                @for (var i = 1; i <= 10; i++)
+                                {
+                                    <option>@i</option>
+                                }
+                            <option selected="selected">
+                                @bookuser.Rating
+                            </option>
+                                
+                            </select>
+                        </th>
+                        @*<th>
+                                <br />
+                                <input id="rating" name="@book.Id" type="radio" value="Любимая" />
+                                <span>Любимая</span>
+                                <br />
+                                <input id="rating" name="@book.Id" type="radio" value="Хорошая" />
+                                <span>Хорошая</span>
+                                <br />
+                                <input id="rating" name="@book.Id" type="radio" value="Плохая" />
+                                <span>Плохая</span>
+                                <br />
+                                <input checked="checked" id="rating" name="@book.Id" type="radio" value="Не читал" />
+                                <span>Не читал</span>
+                            </th>*@
+                        <th><input type="hidden" name="bookid" value="@bookuser.BookId" /></th>
+                    </tr>
+                }
+
+
+            </table>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </form>
+    </div>
+</div>

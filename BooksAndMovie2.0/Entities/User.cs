@@ -10,14 +10,16 @@ namespace BooksAndMovie.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }       
-        public IList<Film> Films { get; set; }
-
+        public string Email { get; set; }
+        public List<FilmUser> FilmUser { get; set; }
         public List<BookUser> BookUser { get; set; }
-
+      
         public User()
         {
             BookUser = new List<BookUser>();
+
+            FilmUser = new List<FilmUser>();
+
         }
 
 

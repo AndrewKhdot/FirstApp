@@ -1,0 +1,59 @@
+﻿@model List<BooksAndMovie.Model.Book>
+@using BooksAndMovie.Model;
+@{
+    ViewData["Title"] = "AddMyBooks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AddMyBooks</h1>
+<div class="row">
+    <div class="col-md-4">
+        <h4>@ViewBag.User.Name</h4>
+        <form asp-action="AddMyBooks" asp-route-id=">@ViewBag.User.Id">
+            <input type="hidden" name="id" value="@ViewBag.User.Id" />
+            <input type="submit" value="Add" class="btn btn-primary" />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                        <th>
+                            Оценка
+                        </th>
+                        <th>
+                            Выбрать
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+
+
+                @foreach (Book book in Model)
+                {
+                    <tr>
+                        <th>@book.Name</th>
+                        <th>@book.Autor</th>
+                        @if (@book.Rating == null)
+                        {
+                            <th>без оценки</th>
+                        }
+                        else
+                        {
+                            <th>@book.Rating</th>
+                        }
+                        <th>
+                            <input name="Check" type="checkbox" value="@book.Id" /> выбрать<br />
+                        </th>
+                    </tr>
+                }
+
+
+            </table>
+        </form>
+    </div>
+</div>

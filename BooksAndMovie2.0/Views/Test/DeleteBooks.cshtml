@@ -1,0 +1,54 @@
+﻿@model List<BooksAndMovie.Model.Book>
+@using BooksAndMovie.Model;
+@{
+    ViewData["Title"] = "DeleteBooks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DeleteBooks</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>@ViewBag.User.Name</h4>
+        <form asp-action="DeleteBooks" asp-route-id=">@ViewBag.User.Id">
+            <input type="hidden" name="id" value="@ViewBag.User.Id" />
+            <input type="submit" value="Add" class="btn btn-primary" />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                        <th>
+                            Удалить
+                        </th>
+                        <th>
+
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+
+
+                @foreach (Book book in Model)
+                {
+                    <tr>
+                        <th>@book.Name</th>
+                        <th>@book.Autor</th>                        
+                        <th>
+                            <input name="del" type="checkbox" value="@book.Id" /> Удалить<br />
+                        </th>
+                        <th><input type="hidden" name="bookid" value="@book.Id" /></th>
+                    </tr>
+                }
+
+
+            </table>
+        </form>
+    </div>
+</div>
+

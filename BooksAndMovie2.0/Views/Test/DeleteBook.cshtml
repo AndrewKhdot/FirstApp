@@ -1,0 +1,36 @@
+﻿@model BooksAndMovie2._0.Entities.BookUser
+@using BooksAndMovie.Model;
+@using BooksAndMovie2._0.Entities;
+@{
+    ViewData["Title"] = "DeleteBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DeleteBook</h1>
+<div class="row">
+    <div class="col-md-4">
+        <h4>@Model.User.Name</h4>
+        @*<form asp-action="DeleteBooks1" asp-route-userid=">@ViewBag.User.Id" asp-route-bookid=">@Model.Id" method="post">*@
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Автор
+                        </th>
+                    </tr>
+                </thead>
+
+                <tr>
+                    <th>@Model.Book.Name</th>
+                    <th>@Model.Book.Autor</th>
+                </tr>
+            </table>
+            <a asp-action="DeleteMyBook" asp-route-bookid="@Model.BookId" asp-route-userid="@Model.UserId" >Delete </a>
+                @*<a asp-action="DeleteBook" asp-route-bookid="@book.Id" asp-route-userid="@ViewBag.User.Id">Delete</a>*@
+                @*</form>*@
+</div>
+</div>
+

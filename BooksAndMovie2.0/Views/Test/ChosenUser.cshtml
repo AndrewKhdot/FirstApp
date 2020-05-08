@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BooksAndMovie2._0.Entities.BookUser>
+@using BooksAndMovie.Model;
+@using BooksAndMovie2._0.Entities;
+
+@{
+    ViewData["Title"] = "ChosenUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.First().User.Name</h1>  
+
+<a asp-action="AddMyBooks" asp-route-id="@Model.First().User.Id">AddMyBooks</a>||
+<a asp-action="MyBooks" asp-route-id="@Model.First().User.Id">ChangeRating</a>||
+<a asp-action="FindIntrestingUsers" asp-route-id="@Model.First().User.Id">FindIntrestingUsers</a>||
+<a asp-action="ChooseUser">ChangeUser</a>
+@*<a asp-action="DeleteBooks" asp-route-id="@ViewBag.User.Id">DeleteBooks</a>*@
+<div class="row">
+    <div class="col-md-4">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Название
+                    </th>
+                    <th>
+                        Автор
+                    </th>
+                    <th>
+                        Оценка
+                    </th>
+                    <th>
+
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @foreach (BookUser bookuser in Model)
+            {
+                <tr>
+                    <th>@bookuser.Book.Name</th>
+                    <th>@bookuser.Book.Autor</th>
+                    @if (@bookuser.Rating == null)
+                    {
+                        <th>без оценки</th>
+                    }
+                    else
+                    {
+                        <th>@bookuser.Rating</th>
+                    }
+                    <td>
+
+                        <a asp-action="DeleteBook" asp-route-bookid="@bookuser.BookId" asp-route-userid="@Model.First().User.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+
+        </table>
+
+
+
+    </div>
+</div>

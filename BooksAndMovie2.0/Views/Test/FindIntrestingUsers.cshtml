@@ -1,0 +1,38 @@
+﻿@model List<BooksAndMovie.Model.User>
+@using BooksAndMovie.Model;
+@{
+    ViewData["Title"] = "FindIntrestingUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>FindIntrestingUsers</h1>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>@ViewBag.User.Name</h4>      
+           
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Имя
+                        </th>
+                        <th>
+                            Добавить книги пользователя
+                        </th>                       
+                        <th></th>
+                    </tr>
+                </thead>
+
+
+
+                @foreach (User user in Model)
+                {
+                    <tr>
+                        <th>@user.Name</th>
+                        <th><a asp-action="AddUsersBooks" asp-route-myid="@ViewBag.User.Id" asp-route-userid="@user.Id">AddUsersBooks</a></th>                      
+                    </tr>
+                }
+            </table>
+       

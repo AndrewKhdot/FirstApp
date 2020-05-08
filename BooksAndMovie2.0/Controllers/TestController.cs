@@ -43,6 +43,20 @@ namespace BooksAndMovie2._0.Controllers
             return View(users);
         }
 
+        public IActionResult FindBook(int id, string text)
+        {
+
+            IList<Book> books = _bookrep.ReadBooks();
+            IList<User> users = _userrep.ReadAllUsers();
+            List<Book> _books = new List<Book>();
+            User user = users.First(p => p.Id == id);
+            ViewBag.User = user;
+            //string text1 = 
+            var _books1 = books.Where((p => p.Name == ("*{}", text)));
+
+            return View(_books);
+        }
+
         //[HttpGet, ActionName("ChosenUser")]
         public IActionResult ChosenUser(int id)
         {
@@ -329,8 +343,7 @@ namespace BooksAndMovie2._0.Controllers
 
             return View(books);
 
-        }
-        
+        }        
 
         
         public IActionResult ChangeBookRating()

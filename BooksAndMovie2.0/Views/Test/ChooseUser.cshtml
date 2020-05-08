@@ -1,0 +1,37 @@
+﻿@model List<BooksAndMovie.Model.User>
+
+@using BooksAndMovie.Model;
+@*@model BooksAndMovie.Model.User*@
+@{
+    ViewData["Title"] = "ChooseUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ChooseUser</h1>
+<div class="col-md-4">
+    <form asp-action="ChosenUser" method="get">
+
+
+        @*<div>
+        <a asp-action="AddMyBooks" asp-route-id="id">AddMyBooks</a>*@
+
+        @*<select asp-for="Id" asp-items="Model"></select>*@
+        @*</div>*@
+        @Html.DropDownList("id", new SelectList(Model, "Id", "Name"), "Выберите пользователя")
+
+        @*<a asp-controller="Test" asp-action="AddMyBooks">AddMyBooks</a>*@
+        @*<a asp-action="AddMyBooks" asp-route-id="id">AddMyBooks</a>*@
+        @*<select id="id" , name="id">
+            @foreach (User u in Model)
+            {
+                <option>@u.Name</option>
+
+            }
+        </select>*@
+        @*<input type="submit" value="Save" />
+        <a asp-action="AddMyBooks" asp-route-id="Id">AddMyBooks</a>*@
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

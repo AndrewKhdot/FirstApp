@@ -37,8 +37,9 @@ namespace BooksAndMovie.Model
         public DbSet<Book> Books { get; set; }
         public DbSet<BookUser> BookUser { get; set; }
         public DbSet<Film> Films { get; set; }
-        
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<FilmUser> FilmUser { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookUser>()
                 .HasKey(t => new { t.UserId, t.BookId });
@@ -52,6 +53,19 @@ namespace BooksAndMovie.Model
                 .HasOne(sc => sc.Book)
                 .WithMany(c => c.BookUser)
                 .HasForeignKey(sc => sc.BookId);
+
+            modelBuilder.Entity<FilmUser>()
+               .HasKey(t => new { t.UserId, t.FilmId });
+
+            modelBuilder.Entity<FilmUser>()
+                .HasOne(sc => sc.User)
+                .WithMany(s => s.FilmUser)
+                .HasForeignKey(sc => sc.UserId);
+
+            modelBuilder.Entity<FilmUser>()
+                .HasOne(sc => sc.Film)
+                .WithMany(c => c.FilmUser)
+                .HasForeignKey(sc => sc.FilmId);
 
             _dataBaseInitialser.Initialize(modelBuilder);
 
