@@ -9,7 +9,7 @@ namespace BooksAndMovie2._0.Entities
    
         public class FilmUser
         {
-            public int UserId { get; set; }
+            public string UserId { get; set; }
             public User User { get; set; }
 
             public int FilmId { get; set; }

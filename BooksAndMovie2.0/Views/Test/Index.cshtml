@@ -9,14 +9,27 @@
 
 <h1>ChooseUser</h1>
 <div class="col-md-4">
-    <form asp-action="ChosenUser" method="get">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
 
-        @Html.DropDownList("id", new SelectList(Model, "Id", "Name"), "Выберите пользователя")
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <input type="submit" value="Выход" />
+        </form>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login">Вход</a>
+        <a asp-controller="Account" asp-action="Register">Регистрация</a>
+    }
+    @*<form asp-action="ChosenUser" method="get">
 
-     
-        <div>
-            <input type="submit" name="id" value="Choose" />
-            @*<input type="button" asp-action="ChosenUser" asp-route-id="id" />*@
-        </div>
-    </form>
+            @Html.DropDownList("id", new SelectList(Model, "Id", "Name"), "Выберите пользователя")
+
+
+            <div>
+                <input type="submit" name="id" value="Choose" />
+                @*<input type="button" asp-action="ChosenUser" asp-route-id="id" />
+            </div>
+        </form>*@
 </div>

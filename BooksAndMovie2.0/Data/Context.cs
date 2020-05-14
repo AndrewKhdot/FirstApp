@@ -1,5 +1,6 @@
 ﻿using BooksAndMovie.Logic;
 using BooksAndMovie2._0.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BooksAndMovie.Model
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<User>
     {
 
         private static readonly object _lock = new object();
@@ -33,7 +34,7 @@ namespace BooksAndMovie.Model
             }
         }
 
-        public DbSet<User> Users { get; set; }
+
         public DbSet<Book> Books { get; set; }
         public DbSet<BookUser> BookUser { get; set; }
         public DbSet<Film> Films { get; set; }
@@ -41,6 +42,8 @@ namespace BooksAndMovie.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<BookUser>()
                 .HasKey(t => new { t.UserId, t.BookId });
 

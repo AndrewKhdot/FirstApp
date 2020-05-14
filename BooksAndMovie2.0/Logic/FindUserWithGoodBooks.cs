@@ -26,7 +26,7 @@ namespace BooksAndMovie2._0.Logic
         {
             _context = context;            
         }
-        public IList<User> FindUsers (int userid)
+        public IList<User> FindUsers (string userid)
         {
             List<User> users = new List<User>();
             var userbooks = _context.BookUser.Where(p => p.UserId ==userid); 

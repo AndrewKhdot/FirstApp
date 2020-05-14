@@ -9,10 +9,10 @@ namespace BooksAndMovie2._0.Data
 {
     public interface IBookUserRepository
     {
-        public void AddBook(int id, Book book, int? _rating);
+        public void AddBook(string userId, Book book, int? _rating);
         public IList<BookUser> ReadBooks();
-        public void RemoveBook(int id, Book book);
-        public void ChangeRating(int id, Book book, int? _rating);
+        public void RemoveBook(string userId, Book book);
+        public void ChangeRating(string userId, Book book, int? _rating);
 
 
     }

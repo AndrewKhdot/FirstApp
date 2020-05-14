@@ -17,7 +17,7 @@ namespace BooksAndMovie2._0.Data
             _context = context;
         }
 
-        public void AddBook(int id, Book book, int? _rating)
+        public void AddBook(string userId, Book book, int? _rating)
         {
             //int count = 0;
             //int rating = 0;
@@ -52,15 +52,15 @@ namespace BooksAndMovie2._0.Data
            
             //_context.Books.Update(_book);
                 BookUser _bu = new BookUser();
-                _bu.UserId = id;                
+                _bu.UserId =userId;                
                 _bu.BookId = book.Id;
                 _bu.Rating = _rating;
                 _context.BookUser.Add(_bu);
                 _context.SaveChanges();
-            ChangeRating(id, book, _rating);
+            ChangeRating(userId, book, _rating);
             //}
         }
-        public void ChangeRating(int id, Book book, int? _rating)
+        public void ChangeRating(string userId, Book book, int? _rating)
         {
             int count = 0;            
             int mark = 0;
@@ -68,7 +68,7 @@ namespace BooksAndMovie2._0.Data
 
             {
                 Book _book = _context.Books.Find(book.Id);
-                BookUser _bookuser = _context.BookUser.First(p => p.BookId == book.Id&&p.UserId == id);
+                BookUser _bookuser = _context.BookUser.First(p => p.BookId == book.Id&&p.UserId == userId);
                 var bookusers = _context.BookUser.Where(p => p.BookId == book.Id && p.Rating != null);
                 if (bookusers.Any())
                 {
@@ -129,14 +129,14 @@ namespace BooksAndMovie2._0.Data
             }
         }
 
-        public void RemoveBook (int id, Book book)
+        public void RemoveBook (string userId, Book book)
         {
             //int count = 0;
             //int rating = 0;
             //int mark = 0;
 
             //{
-            BookUser _bookuser = _context.BookUser.First(p => p.BookId == book.Id && p.UserId == id);
+            BookUser _bookuser = _context.BookUser.First(p => p.BookId == book.Id && p.UserId == userId);
             //    if (_bookuser.Rating != null)
             //    {
             //        var bookusers = _context.BookUser.Where(p => p.BookId == book.Id && p.Rating != null && p.UserId != id);
@@ -162,7 +162,7 @@ namespace BooksAndMovie2._0.Data
 
             //    }
 
-            ChangeRating(id, book, null);
+            ChangeRating(userId, book, null);
                 
 
                 _context.BookUser.Remove(_bookuser);

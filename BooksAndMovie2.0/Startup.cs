@@ -10,6 +10,7 @@ using BooksAndMovie2._0.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +31,11 @@ namespace BooksAndMovie2._0
         public void ConfigureServices(IServiceCollection services)
         {
             string connettionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddTransient<Context>();
+            
             services.AddMvc();
             services.AddDbContext<Context>(options => options.UseSqlServer(connettionString));
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<Context>();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IBookUserRepository, BookUserRepository>();
@@ -59,6 +62,7 @@ namespace BooksAndMovie2._0
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
